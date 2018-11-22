@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Courses</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+        <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Add a new course</h1>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <form action="/courses/create/" method="post">
+                {% csrf_token %}
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="" placeholder="Course Name">
+                <label for="description">Description:</label>
+                <input type="text" name="description" id="" placeholder="Description">                
+                <input type="submit" value="Add">
+            </form>
+            <h2>Courses</h2>
+            <div>
+                <table class="table">
+                    <thead>                        
+                        <td>Course Name</td>
+                        <td>Description</td>
+                        <td>Date Added</td>
+                        <td>Actions</td>
+                    </thead>
+                    <tbody>
+                        {% for course in objects %}
+                            <tr>                                                     
+                                <td>{{course.name}}</td>
+                                <td>{{course.description}}</td>
+                                <td>{{course.created_at}}</td>
+                                <td>                                  
+                                    <a href="{% url 'my_confirm' id=course.id %}">Remove</a>                                    
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>          
+        </div>
+    </body>
+</html>
